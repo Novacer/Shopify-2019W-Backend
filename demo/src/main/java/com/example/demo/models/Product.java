@@ -7,35 +7,33 @@ import java.util.List;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Table(name = "ORDERS")
-public class Order {
+@Table(name = "PRODUCTS")
+public class Product {
 
     @Id
     @GeneratedValue
-    @Column(name = "ORDERID")
-    private Long orderId;
+    @Column(name = "PRODUCTID")
+    private Long productId;
 
     @OneToMany(cascade={CascadeType.ALL})
-    @JoinColumn(name="ORDERID")
+    @JoinColumn(name="PRODUCTID")
     private List<LineItem> lineItems;
+
+    @Column(name = "VALUE")
+    private Double value;
 
     @Column(name = "NAME")
     private String name;
 
-
-    // not in the database
-    private Double totalValue;
-
-
-    public Order() {
+    public Product() {
     }
 
-    public Long getOrderId() {
-        return orderId;
+    public Long getProductId() {
+        return productId;
     }
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 
     public List<LineItem> getLineItems() {
@@ -46,12 +44,12 @@ public class Order {
         this.lineItems = lineItems;
     }
 
-    public Double getTotalValue() {
-        return totalValue;
+    public Double getValue() {
+        return value;
     }
 
-    public void setTotalValue(Double totalValue) {
-        this.totalValue = totalValue;
+    public void setValue(Double value) {
+        this.value = value;
     }
 
     public String getName() {

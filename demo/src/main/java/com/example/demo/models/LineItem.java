@@ -10,8 +10,11 @@ public class LineItem {
     @Column(name = "LINEITEMID")
     private Long lineItemId;
 
-    @Column(name = "PARENTID")
-    private Long parentId;
+    @Column(name = "ORDERID")
+    private Long orderId;
+
+    @Column(name = "PRODUCTID")
+    private Long productId;
 
     @Column(name = "PRICE")
     private Double price;
@@ -26,14 +29,6 @@ public class LineItem {
     private String name;
 
     public LineItem() {
-    }
-
-    public LineItem(Long parentId, Double price, Double rate, Long quantity, String name) {
-        this.parentId = parentId;
-        this.price = price;
-        this.rate = rate;
-        this.quantity = quantity;
-        this.name = name;
     }
 
     public Long getLineItemId() {
@@ -76,11 +71,19 @@ public class LineItem {
         this.name = name;
     }
 
-    public Long getParentId() {
-        return parentId;
+    public Long getOrderId() {
+        return orderId;
     }
 
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 }
