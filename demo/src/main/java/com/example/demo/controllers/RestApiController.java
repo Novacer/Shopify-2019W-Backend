@@ -19,7 +19,7 @@ public class RestApiController {
     }
 
 
-    @GetMapping("/api/shop/order/{orderId}")
+    @GetMapping("/api/shop/{shopId}/order/{orderId}")
     public Order getOrder(@PathVariable Long orderId) {
 
         Order order = this.dataRepository.getOrderById(orderId);
