@@ -23,7 +23,12 @@ public class RestApiController {
     @GetMapping("/api/shop/{shopId}")
     public Shop getShop(@PathVariable Long shopId) {
 
-        return dataRepository.getShopById(shopId);
+        Shop shop = dataRepository.getShopById(shopId);
+
+        computeAndSetTotalValue(shop.getOrders());
+        mapLineItemValueToProduct(shop.getProducts());
+
+        return shop;
     }
 
 
@@ -32,15 +37,7 @@ public class RestApiController {
 
         Order order = this.dataRepository.getOrderById(orderId);
 
-        List<LineItem> items = order.getLineItems();
-
-        double price = 0;
-
-        for (LineItem item : items) {
-            price += item.getPrice();
-        }
-
-        order.setTotalValue(price);
+        computeAndSetTotalValue(order);
 
         return order;
     }
@@ -59,5 +56,43 @@ public class RestApiController {
         }
 
         return product;
+    }
+
+    private void computeAndSetTotalValue(Order order) {
+
+        List<LineItem> items = order.getLineItems();
+
+        double price = 0;
+
+        for (LineItem item : items) {
+            price += item.getPrice();
+        }
+
+        order.setTotalValue(price);
+    }
+
+    private void computeAndSetTotalValue(List<Order> orders) {
+
+        for (Order order : orders) {
+            computeAndSetTotalValue(order);
+        }
+    }
+
+    private void mapLineItemValueToProduct(Product product) {
+
+        List<LineItem> items = product.getLineItems();
+
+        double value = product.getValue();
+
+        for (LineItem item : items) {
+            item.setPrice(value);
+        }
+    }
+
+    private void mapLineItemValueToProduct(List<Product> products) {
+
+        for (Product product: products) {
+            mapLineItemValueToProduct(product);
+        }
     }
 }
