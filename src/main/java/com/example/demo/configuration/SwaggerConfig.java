@@ -28,7 +28,7 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
         return new ApiInfo(
                 "Shopify Winter 2019 Developer Internship Challenge",
-                "Made by Jack Zhang. Deployed on Google Kubernetes Engine",
+                "Deployed on Google Kubernetes Engine. When in doubt, enter 1.",
                 "v1",
                 "Terms of service",
                 new Contact("Jack Zhang", "www.github.com/novacer", "jzqzhang@uwaterloo.ca"),

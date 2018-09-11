@@ -5,9 +5,12 @@ import com.example.demo.models.Order;
 import com.example.demo.models.Product;
 import com.example.demo.models.Shop;
 import com.example.demo.quickrepo.jpa.DataRepository;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -21,8 +24,16 @@ public class RestApiController {
         this.dataRepository = quickDataRepository;
     }
 
+    @GetMapping("/")
+    @ApiOperation(value = "Used only to redirect to swagger UI")
+    public ModelAndView redirect() {
+        return new ModelAndView("redirect:/swagger-ui.html");
+    }
+
     @GetMapping("/api/shop/{shopId}")
-    public Shop getShop(@PathVariable Long shopId) {
+    @ApiOperation(value = "Get all info for a shop from its ID")
+    public Shop getShop(@ApiParam(value = "The Shop ID. When in doubt use 1.")
+                            @PathVariable Long shopId) {
 
         Shop shop = dataRepository.getShopById(shopId);
 
@@ -33,7 +44,8 @@ public class RestApiController {
     }
 
     @GetMapping("/api/shop/{shopId}/product")
-    public ProductsListWrapper getAllProducts(@PathVariable Long shopId) {
+    public ProductsListWrapper getAllProducts(@ApiParam(value = "The Shop ID. When in doubt use 1.")
+                                                  @PathVariable Long shopId) {
 
         Shop shop = dataRepository.getShopById(shopId);
 
@@ -45,7 +57,8 @@ public class RestApiController {
     }
 
     @GetMapping("/api/shop/{shopId}/order")
-    public OrdersListWrapper getAllOrders(@PathVariable Long shopId) {
+    public OrdersListWrapper getAllOrders(@ApiParam(value = "The Shop ID. When in doubt use 1.")
+                                              @PathVariable Long shopId) {
 
         Shop shop = dataRepository.getShopById(shopId);
 
@@ -58,7 +71,11 @@ public class RestApiController {
 
 
     @GetMapping("/api/shop/{shopId}/order/{orderId}")
-    public Order getOrder(@PathVariable Long orderId, @PathVariable Long shopId) throws EntityNotFoundException{
+    public Order getOrder(@ApiParam(value = "The Order ID. When in doubt use 1.")
+                              @PathVariable Long orderId,
+                          @ApiParam(value = "The Shop ID. When in doubt use 1.")
+                              @PathVariable Long shopId)
+            throws EntityNotFoundException{
 
         Order order = this.dataRepository.getOrderById(orderId);
 
@@ -77,7 +94,10 @@ public class RestApiController {
     }
 
     @GetMapping("/api/shop/{shopId}/product/{productId}")
-    public Product getProduct(@PathVariable Long productId, @PathVariable Long shopId) throws EntityNotFoundException {
+    public Product getProduct(@ApiParam(value = "The Product ID. When in doubt use 1.")
+                                  @PathVariable Long productId,
+                              @ApiParam(value = "The Shop ID. When in doubt use 1.")
+                                  @PathVariable Long shopId) throws EntityNotFoundException {
 
         Product product = this.dataRepository.getProductById(productId);
 
