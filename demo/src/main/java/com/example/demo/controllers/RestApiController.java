@@ -3,6 +3,7 @@ package com.example.demo.controllers;
 import com.example.demo.models.LineItem;
 import com.example.demo.models.Order;
 import com.example.demo.models.Product;
+import com.example.demo.models.Shop;
 import com.example.demo.quickrepo.jpa.DataRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,12 @@ public class RestApiController {
 
     public RestApiController(DataRepository quickDataRepository) {
         this.dataRepository = quickDataRepository;
+    }
+
+    @GetMapping("/api/shop/{shopId}")
+    public Shop getShop(@PathVariable Long shopId) {
+
+        return dataRepository.getShopById(shopId);
     }
 
 
