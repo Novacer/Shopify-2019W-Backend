@@ -6,7 +6,7 @@ Deployed on Google Kubernetes Engine at http://35.237.1.196 with a Docker image.
 
 Comes with swagger docs for easy interactivity.
 
-The stack is made using Java Spring Boot as the web framework, h2 as the JDBC, and Swagger as the "frontend" (just kidding).
+The stack is made using Java Spring as the web framework, h2 as the JDBC, and Swagger as the "frontend" (just kidding).
 
 On application startup it will create an in memory database and insert some mock data just for the demonstration.
 You can see that [here.](https://github.com/Novacer/Shopify-2019W-Backend/blob/master/src/main/resources/data.sql)
