@@ -22,6 +22,9 @@ public class Order {
     @Column(name = "NAME")
     private String name;
 
+    @Column(name = "SHOPID")
+    private Long shopId;
+
 
     // not in the database
     private Double totalValue;
@@ -60,5 +63,13 @@ public class Order {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Long getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(Long shopId) {
+        this.shopId = shopId;
     }
 }

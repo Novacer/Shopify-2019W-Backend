@@ -25,6 +25,9 @@ public class Product {
     @Column(name = "NAME")
     private String name;
 
+    @Column(name = "SHOPID")
+    private Long shopId;
+
     public Product() {
     }
 
@@ -58,5 +61,13 @@ public class Product {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Long getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(Long shopId) {
+        this.shopId = shopId;
     }
 }
