@@ -1,8 +1,11 @@
-insert into Orders (orderId, name)
-values (1, 'Jack Inc. Order Num 01 - Sept 10, 2018');
+insert into Shop (shopId, name)
+values (1, 'Party Services Inc Ltd LLC CEO Blockchain Hadoop');
 
-insert into Products (productId, name, value)
-values (1, 'Super Duper Burger', 7.0);
+insert into Orders (orderId, name, shopId)
+values (1, 'Jack Inc. Order Num 01 - Sept 10, 2018', 1);
+
+insert into Products (productId, name, value, shopId)
+values (1, 'Super Duper Burger', 7.0, 1);
 
 
 insert into LineItem (lineItemId, price, rate, quantity, name, orderId)
