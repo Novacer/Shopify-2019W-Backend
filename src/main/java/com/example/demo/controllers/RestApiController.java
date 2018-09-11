@@ -44,6 +44,7 @@ public class RestApiController {
     }
 
     @GetMapping("/api/shop/{shopId}/product")
+    @ApiOperation(value = "Get all products for a shop")
     public ProductsListWrapper getAllProducts(@ApiParam(value = "The Shop ID. When in doubt use 1.")
                                                   @PathVariable Long shopId) {
 
@@ -57,6 +58,7 @@ public class RestApiController {
     }
 
     @GetMapping("/api/shop/{shopId}/order")
+    @ApiOperation(value = "Get all orders for a shop")
     public OrdersListWrapper getAllOrders(@ApiParam(value = "The Shop ID. When in doubt use 1.")
                                               @PathVariable Long shopId) {
 
@@ -71,6 +73,7 @@ public class RestApiController {
 
 
     @GetMapping("/api/shop/{shopId}/order/{orderId}")
+    @ApiOperation(value = "Get a specific order for a shop")
     public Order getOrder(@ApiParam(value = "The Order ID. When in doubt use 1.")
                               @PathVariable Long orderId,
                           @ApiParam(value = "The Shop ID. When in doubt use 1.")
@@ -94,6 +97,7 @@ public class RestApiController {
     }
 
     @GetMapping("/api/shop/{shopId}/product/{productId}")
+    @ApiOperation(value = "Get a specific product for a shop")
     public Product getProduct(@ApiParam(value = "The Product ID. When in doubt use 1.")
                                   @PathVariable Long productId,
                               @ApiParam(value = "The Shop ID. When in doubt use 1.")
@@ -114,6 +118,11 @@ public class RestApiController {
 
     }
 
+
+    /**
+     * sums the prices of an order and modifies the total value field to be that value
+     * @param order an order
+     */
     private void computeAndSetTotalValue(Order order) {
 
         List<LineItem> items = order.getLineItems();
@@ -127,6 +136,11 @@ public class RestApiController {
         order.setTotalValue(price);
     }
 
+
+    /**
+     * computes and sets the correct total value for a list of orders
+     * @param orders a list of orders
+     */
     private void computeAndSetTotalValue(List<Order> orders) {
 
         for (Order order : orders) {
@@ -134,6 +148,11 @@ public class RestApiController {
         }
     }
 
+
+    /**
+     * modifies all of the LineItems to have the same price as the product's value
+     * @param product a product
+     */
     private void mapLineItemValueToProduct(Product product) {
 
         List<LineItem> items = product.getLineItems();
@@ -145,6 +164,11 @@ public class RestApiController {
         }
     }
 
+
+    /**
+     * modifies all of the LineItems in each product to have the same price as the product's value
+     * @param products a list of products
+     */
     private void mapLineItemValueToProduct(List<Product> products) {
 
         for (Product product: products) {
