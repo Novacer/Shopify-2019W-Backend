@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @RestController
@@ -31,31 +32,66 @@ public class RestApiController {
         return shop;
     }
 
+    @GetMapping("/api/shop/{shopId}/product")
+    public ProductsListWrapper getAllProducts(@PathVariable Long shopId) {
+
+        Shop shop = dataRepository.getShopById(shopId);
+
+        List<Product> products = shop.getProducts();
+
+        mapLineItemValueToProduct(products);
+
+        return new ProductsListWrapper(products);
+    }
+
+    @GetMapping("/api/shop/{shopId}/order")
+    public OrdersListWrapper getAllOrders(@PathVariable Long shopId) {
+
+        Shop shop = dataRepository.getShopById(shopId);
+
+        List<Order> orders = shop.getOrders();
+
+        computeAndSetTotalValue(orders);
+
+        return new OrdersListWrapper(orders);
+    }
+
 
     @GetMapping("/api/shop/{shopId}/order/{orderId}")
-    public Order getOrder(@PathVariable Long orderId) {
+    public Order getOrder(@PathVariable Long orderId, @PathVariable Long shopId) throws EntityNotFoundException{
 
         Order order = this.dataRepository.getOrderById(orderId);
 
-        computeAndSetTotalValue(order);
+        Long orderShopId = order.getShopId();
 
-        return order;
+        if (shopId.equals(orderShopId)) {
+
+            computeAndSetTotalValue(order);
+
+            return order;
+        }
+
+        else {
+            throw new EntityNotFoundException("This shop Id does not have this order Id");
+        }
     }
 
     @GetMapping("/api/shop/{shopId}/product/{productId}")
-    public Product getProduct(@PathVariable Long productId) {
+    public Product getProduct(@PathVariable Long productId, @PathVariable Long shopId) throws EntityNotFoundException {
 
         Product product = this.dataRepository.getProductById(productId);
 
-        List<LineItem> items = product.getLineItems();
+        Long productShopId = product.getShopId();
 
-        double value = product.getValue();
-
-        for (LineItem item : items) {
-            item.setPrice(value);
+        if (shopId.equals(productShopId)) {
+            mapLineItemValueToProduct(product);
+            return product;
         }
 
-        return product;
+        else {
+            throw new EntityNotFoundException("This shop Id does not have this product Id");
+        }
+
     }
 
     private void computeAndSetTotalValue(Order order) {
